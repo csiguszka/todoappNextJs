@@ -9,7 +9,7 @@ import Link from "next/link";
 interface ITodo {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
   class: string;
   isDone: boolean;
 } //TODO ha kell csak importald be a prismabol
