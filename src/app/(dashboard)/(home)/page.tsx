@@ -48,7 +48,7 @@ async function UserTodos() {
     return (
       <div className="grid grid-cols-1 gap-4">
         {todos.map((todo) => (
-          <TodoCard key={todo._id} todo={todo} />
+          <TodoCard key={todo.id} todo={todo} />
         ))}
       </div>
     );

@@ -7,7 +7,7 @@ import { deleteTodo } from "../../actions/deleteTodo";
 import Link from "next/link";
 
 interface ITodo {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   class: string;
@@ -36,10 +36,10 @@ function TodoCard({ todo }: { todo: ITodo }) {
             className="text-destructive cursor-pointer hover:text-destructive/90"
             size={40}
             onClick={() => {
-              deleteMutation.mutate(todo._id);
+              deleteMutation.mutate(todo.id);
             }}
           />
-          <Link href={`/update/${todo._id}`}>
+          <Link href={`/update/${todo.id}`}>
             <Pencil size={40} />
           </Link>
         </div>
