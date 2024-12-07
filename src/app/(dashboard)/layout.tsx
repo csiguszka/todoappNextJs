@@ -7,14 +7,30 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
-function layout({ children }: { children: ReactNode }) {
+async function layout({ children }: { children: ReactNode }) {
+  const { userId } = await auth();
+  let user;
+  if (userId != null) {
+    user = await currentUser();
+
+    console.log(user);
+  }
+
   return (
     <>
       <Sidebar>
-        <SidebarHeader />
+        <SidebarHeader>
+          <div className="flex flex-row space-x-2">
+            <UserButton />
+
+            <p>Szia {user?.username}</p>
+          </div>
+        </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -24,14 +40,16 @@ function layout({ children }: { children: ReactNode }) {
               <Link href={"addtodo"}>Add todo</Link>
             </SidebarMenuItem>
           </SidebarMenu>
-          <SidebarFooter>
-            <SidebarMenuItem>
-              <Link href={"sign-in"}>sign-in</Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <Link href={"sign-up"}>sign-up</Link>
-            </SidebarMenuItem>
-          </SidebarFooter>
+          {userId == null && (
+            <SidebarFooter>
+              <SidebarMenuItem>
+                <Link href={"sign-in"}>sign-in</Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href={"sign-up"}>sign-up</Link>
+              </SidebarMenuItem>
+            </SidebarFooter>
+          )}
         </SidebarContent>
       </Sidebar>
       <div className="flex flex-col p-2 w-screen">

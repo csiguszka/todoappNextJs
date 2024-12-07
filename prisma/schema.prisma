@@ -20,5 +20,6 @@ model ToDo {
   description String?
   class String
   isDone Boolean @default(false)
+  userId String?
 }
 

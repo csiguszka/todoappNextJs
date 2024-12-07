@@ -1,5 +1,6 @@
 "use server";
 
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { PrismaClient } from "@prisma/client";
 
 export async function getTodos({
@@ -10,8 +11,19 @@ export async function getTodos({
   skip: number;
 }) {
   // TODO
+
+  const { userId } = await auth();
+  let user;
+  if (userId != null) {
+    user = await currentUser();
+
+    console.log(user);
+  }
   const prisma = new PrismaClient();
   const todos = await prisma.toDo.findMany({
+    where: {
+      userId: user?.id,
+    },
     take: limit,
     skip: skip,
   });

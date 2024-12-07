@@ -5,6 +5,8 @@ import Link from "next/link";
 import { InboxIcon } from "lucide-react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import TodoCard from "@/components/TodoCard";
+import { useAuth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 function page() {
   return (
@@ -36,7 +38,7 @@ async function UserTodos() {
             <InboxIcon size={40} className="stroke-primary" />
           </div>
           <div className="flex flex-col gap-1 text-center">
-            <p className="font-bold">You don&aps;t have any todo!</p>
+            <p className="font-bold">You don't have any todo!</p>
             <p className="text-sm text-muted-foreground">
               Click the button below to create your first todo
             </p>

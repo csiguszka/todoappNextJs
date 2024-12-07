@@ -7,6 +7,7 @@ import {
 } from "../schema/todoForm";
 import { revalidatePath } from "next/cache";
 import { PrismaClient } from "@prisma/client";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 export async function createTodo(form: createTodoType) {
   const { success, data } = createTodoSchema.safeParse(form); // validalja a formot, mindig kell hasznalni, ha formbol jovo cuccrol van szo
@@ -16,6 +17,13 @@ export async function createTodo(form: createTodoType) {
     console.error("Invalid form", data);
     return;
   }
+  const { userId } = await auth();
+  let user;
+  if (userId != null) {
+    user = await currentUser();
+
+    console.log(user);
+  }
 
   const prisma = new PrismaClient();
   const post = await prisma.toDo.create({
@@ -24,6 +32,7 @@ export async function createTodo(form: createTodoType) {
       description: data?.description,
       class: data?.class,
       isDone: data?.isDone,
+      userId: user?.id,
     },
   });
   console.log(post);
