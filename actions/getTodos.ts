@@ -28,5 +28,6 @@ export async function getTodos({
     skip: skip,
   });
 
+  if (userId == null) return [];
   return todos;
 }
